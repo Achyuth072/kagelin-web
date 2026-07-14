@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { verifyTurnstile } from "@/lib/turnstile";
 
-// Simple, permissive email shape check — real validation is "can we email it",
-// which only the confirmation attempt proves. This just rejects obvious junk.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const FOUNDING_CAP = Number(process.env.WAITLIST_FOUNDING_CAP ?? "25");
@@ -32,8 +30,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
   }
 
-  // Abuse guard: Cloudflare Turnstile. The unique constraint below stops
-  // duplicate spam; Turnstile stops bot volume.
   const remoteIp =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? undefined;
   const human = await verifyTurnstile(turnstileToken, remoteIp);
@@ -44,8 +40,7 @@ export async function POST(request: Request) {
   try {
     const supabase = createAdminClient();
 
-    // Auto-close the founding cohort at the cap. Past it we still capture the
-    // email — for the general launch list — just without the founding promise.
+    // Past the cap, still capture the email for the general launch list.
     const { count, error: countError } = await supabase
       .from("waitlist_signups")
       .select("id", { count: "exact", head: true });
@@ -62,9 +57,7 @@ export async function POST(request: Request) {
       .insert({ email, cohort });
 
     if (insertError) {
-      // 23505 = unique_violation → already signed up. Report it as a friendly,
-      // non-error state so we never leak whether an address exists via status
-      // code differences beyond this intentional, benign message.
+      // 23505 = unique_violation → already signed up.
       if (insertError.code === "23505") {
         return NextResponse.json({ status: "already" });
       }
@@ -73,8 +66,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ status: "ok", cohort });
   } catch {
-    // Misconfiguration (e.g. missing SUPABASE_SECRET_KEY) or an unexpected
-    // client error — return a clean 503 instead of a bare 500 stack page.
     return NextResponse.json({ error: "server_error" }, { status: 503 });
   }
 }

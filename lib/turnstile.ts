@@ -6,26 +6,14 @@ interface SiteverifyResponse {
   "error-codes"?: string[];
 }
 
-/**
- * Server-side Cloudflare Turnstile verification.
- *
- * The app renders the widget client-side (src/components/auth/Turnstile.tsx)
- * but never had a server verify — Supabase Auth did it. Here the waitlist route
- * owns the check itself, so we implement the siteverify call.
- *
- * Returns true only on a confirmed-human token. If TURNSTILE_SECRET_KEY is
- * unset (e.g. local dev before keys are provisioned), verification is skipped
- * and returns true so the form stays testable — production must set the key.
- */
+// When TURNSTILE_SECRET_KEY is unset (local dev), verification is skipped and
+// returns true so the form stays testable — production must set the key.
 export async function verifyTurnstile(
   token: string | undefined | null,
   remoteIp?: string,
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) {
-    // No key configured — skip (dev convenience). Guard against this in prod.
-    return true;
-  }
+  if (!secret) return true;
   if (!token) return false;
 
   const body = new URLSearchParams();

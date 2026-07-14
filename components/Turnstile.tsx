@@ -25,12 +25,8 @@ declare global {
   }
 }
 
-/**
- * Cloudflare Turnstile widget. Hand-rolled (same approach as the app's
- * src/components/auth/Turnstile.tsx) — the render/reset/remove surface is tiny.
- * When NEXT_PUBLIC_TURNSTILE_SITE_KEY is unset (local dev before keys exist),
- * it renders nothing and the server verify is skipped, so the form stays usable.
- */
+// When NEXT_PUBLIC_TURNSTILE_SITE_KEY is unset (local dev), renders nothing and
+// the server verify is skipped, so the form stays usable.
 export function Turnstile({
   onVerify,
   onExpire,
@@ -83,8 +79,7 @@ export function Turnstile({
       if (id && window.turnstile) window.turnstile.remove(id);
       widgetIdRef.current = null;
     };
-    // resolvedTheme intentionally omitted: re-rendering the widget on theme
-    // flip would drop an in-progress token. Theme is read once at mount.
+    // resolvedTheme omitted: re-rendering on theme flip drops an in-progress token.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteKey, onVerify, onExpire]);
 

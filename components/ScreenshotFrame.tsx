@@ -1,14 +1,7 @@
 import { cn } from "@/lib/utils";
 
-/**
- * Framed product screenshot. Real images live under public/screenshots/.
- * Pass `ready` with a real `src` to render the image; otherwise it shows an
- * in-palette placeholder (labeled with the path to drop in).
- *
- * `natural` shows the full image at its own aspect (used for the big hero shot,
- * so nothing is cropped). Without it, the image cover-crops to `aspect` anchored
- * to the top — keeps a row of secondary shots a uniform height.
- */
+// `ready` renders the real image; otherwise a placeholder. `natural` shows the
+// full image at its own aspect; without it, cover-crops to `aspect` from the top.
 export function ScreenshotFrame({
   src,
   alt,
@@ -35,8 +28,6 @@ export function ScreenshotFrame({
         className,
       )}
     >
-      {/* Matte window chrome — label left, window controls right (Windows-style),
-          no gloss. */}
       <div className="flex items-center justify-between border-b border-border bg-secondary px-3.5 py-2.5">
         <span className="type-micro text-muted-foreground">{alt}</span>
         <div className="flex items-center gap-1.5">

@@ -25,8 +25,6 @@ export default function Home() {
   );
 }
 
-/* ── Shared layout primitive ──────────────────────────────────────────────── */
-
 function Section({
   children,
   className = "",
@@ -55,7 +53,19 @@ function GitHubIcon() {
   );
 }
 
-/* ── Header ────────────────────────────────────────────────────────────────── */
+function GitHubIconLink() {
+  return (
+    <a
+      href={GITHUB_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Kagelin on GitHub"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-seijaku hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
+    >
+      <GitHubIcon />
+    </a>
+  );
+}
 
 function SiteHeader() {
   return (
@@ -75,15 +85,7 @@ function SiteHeader() {
           </span>
         </a>
         <nav className="flex items-center gap-2">
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Kagelin on GitHub"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-seijaku hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
-          >
-            <GitHubIcon />
-          </a>
+          <GitHubIconLink />
           <a
             href={APP_URL}
             className="type-ui inline-flex h-9 items-center rounded-lg border border-border/80 px-3.5 text-foreground transition-seijaku hover:bg-secondary"
@@ -96,8 +98,6 @@ function SiteHeader() {
     </header>
   );
 }
-
-/* ── Hero ──────────────────────────────────────────────────────────────────── */
 
 function Hero() {
   return (
@@ -123,9 +123,7 @@ function Hero() {
 }
 
 function HeroShot() {
-  // The board is the centerpiece, so it gets a wider container than the text
-  // sections (max-w-7xl / 1280px) — big enough to feel like the hero visual,
-  // but still bounded with side margins rather than full-bleed (which reads odd).
+  // Wider container than the text sections — the board is the hero visual.
   return (
     <div className="mx-auto w-full max-w-340 px-5 pb-16 md:px-8 md:pb-24">
       <ScreenshotFrame
@@ -139,8 +137,6 @@ function HeroShot() {
     </div>
   );
 }
-
-/* ── Pillars ───────────────────────────────────────────────────────────────── */
 
 const PILLARS: { title: string; body: string }[] = [
   {
@@ -171,8 +167,6 @@ function Pillars() {
     </Section>
   );
 }
-
-/* ── Secondary screenshots ─────────────────────────────────────────────────── */
 
 const SHOTS: {
   src: string;
@@ -233,8 +227,6 @@ function Screenshots() {
   );
 }
 
-/* ── "Also" line ───────────────────────────────────────────────────────────── */
-
 function AlsoLine() {
   const items = [
     "recurring tasks",
@@ -257,8 +249,6 @@ function AlsoLine() {
     </Section>
   );
 }
-
-/* ── Founding tester ───────────────────────────────────────────────────────── */
 
 function FoundingTester() {
   return (
@@ -284,8 +274,6 @@ function FoundingTester() {
     </Section>
   );
 }
-
-/* ── How Kagelin sustains itself ───────────────────────────────────────────── */
 
 function Sustains() {
   return (
@@ -317,8 +305,6 @@ function Sustains() {
     </Section>
   );
 }
-
-/* ── FAQ ───────────────────────────────────────────────────────────────────── */
 
 const FAQ: { q: string; a: string }[] = [
   {
@@ -355,8 +341,6 @@ function Faq() {
   );
 }
 
-/* ── Footer ────────────────────────────────────────────────────────────────── */
-
 function SiteFooter() {
   return (
     <footer className="border-t border-border py-12">
@@ -391,15 +375,7 @@ function SiteFooter() {
             >
               Open the app
             </a>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Kagelin on GitHub"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-seijaku hover:bg-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
-            >
-              <GitHubIcon />
-            </a>
+            <GitHubIconLink />
           </nav>
         </div>
       </Section>

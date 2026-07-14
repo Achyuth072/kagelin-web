@@ -6,11 +6,6 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "founding" | "general" | "already" | "error";
 
-/**
- * Founding-tester waitlist form. Used twice on the page (hero + founding
- * section). Email-only by design — every extra field costs conversion. Turnstile
- * runs invisibly-ish below the field; the server owns verification + the cap.
- */
 export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -71,7 +66,6 @@ export function WaitlistForm({ className }: { className?: string }) {
     }
   }
 
-  // Success / terminal states get a calm confirmation panel instead of the form.
   if (status === "founding" || status === "general" || status === "already") {
     return (
       <div

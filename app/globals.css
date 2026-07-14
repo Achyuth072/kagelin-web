@@ -3,23 +3,13 @@
 /* eslint-disable tailwindcss/no-invalid-at-rules */
 @custom-variant dark (&:is(.dark *));
 
-/* ──────────────────────────────────────────────────────────────────────────
- * Kagelin — Ink & Matte design tokens.
- * Ported verbatim from the app (app/globals.css) so the marketing site reads
- * as the same product. App-only concerns (100dvh/overflow:hidden lock, task
- * cards, sonner, vaul, PWA safe-areas) are intentionally omitted — this is a
- * normally-scrolling document, not the app shell.
- * ────────────────────────────────────────────────────────────────────────── */
-
 @theme inline {
-  /* Radius tokens */
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Typography */
   --font-sans:
     var(--font-inter), ui-sans-serif, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
@@ -27,7 +17,6 @@
     var(--font-jetbrains), "SFMono-Regular", "Menlo", "JetBrains Mono",
     monospace;
 
-  /* Color tokens — mapped to CSS variables */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -49,46 +38,40 @@
   --color-ring: hsl(var(--ring));
   --color-brand: hsl(var(--brand));
   --color-brand-foreground: hsl(var(--brand-foreground));
-  /* Contrast-tuned indigo for brand-colored TEXT/icons (not fills). The base
-     brand (#4B6CB7) only hits ~3:1 on the dark surface, so a darker shade in
-     light mode and a lighter one in dark mode keep brand accents ≥ WCAG AA. */
   --color-brand-strong: hsl(var(--brand-strong));
 
-  /* Seijaku Physics — Energized Calm */
   --ease-seijaku: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Light mode — Zen-Modernist (Matte & Ink) */
 :root {
-  --background: 40 20% 99%; /* #FCFCFA — Warm Washi */
-  --foreground: 0 0% 18%; /* #2E2E2E — Ink */
+  --background: 40 20% 99%; /* #FCFCFA */
+  --foreground: 0 0% 18%; /* #2E2E2E */
   --card: 40 20% 99%;
   --card-foreground: 0 0% 18%;
   --popover: 40 20% 99%;
   --popover-foreground: 0 0% 18%;
-  --primary: 0 0% 18%; /* Ink for primary actions */
+  --primary: 0 0% 18%;
   --primary-foreground: 0 0% 100%;
   --secondary: 60 9% 96%;
   --secondary-foreground: 0 0% 18%;
   --muted: 60 9% 96%;
-  --muted-foreground: 0 0% 43%; /* #6E6E6E — AA on light */
+  --muted-foreground: 0 0% 43%; /* #6E6E6E */
   --accent: 60 9% 96%;
   --accent-foreground: 0 0% 18%;
   --destructive: 12 40% 45%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 60%; /* AA non-text contrast (1.4.11) */
+  --border: 0 0% 60%;
   --input: 0 0% 60%;
   --ring: 0 0% 18%;
-  --brand: 220 44% 50%; /* #4B6CB7 — Kagelin Blue */
+  --brand: 220 44% 50%; /* #4B6CB7 */
   --brand-foreground: 0 0% 100%;
-  --brand-strong: 220 46% 40%; /* darker indigo — ~6.4:1 on Washi */
+  --brand-strong: 220 46% 40%;
 }
 
-/* Dark mode — Zen-Modernist (Sumi Ink) */
 .dark {
-  --background: 0 0% 10%; /* #1A1A1A — Sumi Ink */
+  --background: 0 0% 10%; /* #1A1A1A */
   --foreground: 0 0% 90%; /* #E5E5E5 */
-  --card: 0 0% 13%; /* #222222 — Charcoal */
+  --card: 0 0% 13%; /* #222222 */
   --card-foreground: 0 0% 90%;
   --popover: 0 0% 13%;
   --popover-foreground: 0 0% 90%;
@@ -102,12 +85,12 @@
   --accent-foreground: 0 0% 90%;
   --destructive: 12 32% 52%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 34%; /* AA non-text contrast (1.4.11) */
+  --border: 0 0% 34%;
   --input: 0 0% 34%;
   --ring: 0 0% 90%;
   --brand: 220 44% 50%;
   --brand-foreground: 0 0% 100%;
-  --brand-strong: 219 55% 74%; /* lighter indigo — ~7:1 on Sumi Ink */
+  --brand-strong: 219 55% 74%;
 }
 
 @layer base {
@@ -118,7 +101,7 @@
     @apply bg-background text-foreground;
     font-feature-settings: "cv11", "ss01";
   }
-  /* Inputs at 16px prevent iOS zoom (design-system rule). */
+  /* 16px inputs prevent iOS zoom-on-focus. */
   input,
   textarea,
   select {
@@ -126,7 +109,6 @@
   }
 }
 
-/* Editorial type scale — ported from the app. */
 @layer utilities {
   .type-h1 {
     font-size: 34px;
@@ -179,7 +161,6 @@
     line-height: 1;
   }
 
-  /* Mono kicker — the brand line above the H1. */
   .type-kicker {
     font-family: var(--font-mono);
     font-size: 12px;
@@ -195,16 +176,14 @@
   }
 }
 
-/* Hide the page scrollbar without disabling scroll (keyboard/wheel/touch all
-   still work). Matches the app's quiet, chrome-free surfaces. */
+/* Hide the page scrollbar without disabling scroll. */
 html {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 html::-webkit-scrollbar {
-  display: none; /* Chromium & Safari */
+  display: none;
 }
 
-/* Respect reduced-motion — degrade all animation to instant (design-system). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
