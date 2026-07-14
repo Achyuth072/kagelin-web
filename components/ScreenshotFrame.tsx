@@ -35,12 +35,15 @@ export function ScreenshotFrame({
         className,
       )}
     >
-      {/* Matte window chrome — three dots, no gloss. */}
-      <div className="flex items-center gap-1.5 border-b border-border bg-secondary px-3.5 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/40" />
-        <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-        <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
-        <span className="type-micro ml-2 text-muted-foreground">{alt}</span>
+      {/* Matte window chrome — label left, window controls right (Windows-style),
+          no gloss. */}
+      <div className="flex items-center justify-between border-b border-border bg-secondary px-3.5 py-2.5">
+        <span className="type-micro text-muted-foreground">{alt}</span>
+        <div className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
+          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
+          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/40" />
+        </div>
       </div>
 
       {ready ? (
