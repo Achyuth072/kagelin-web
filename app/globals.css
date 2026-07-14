@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/* eslint-disable tailwindcss/no-invalid-at-rules */
+@custom-variant dark (&:is(.dark *));
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Kagelin — Ink & Matte design tokens.
+ * Ported verbatim from the app (app/globals.css) so the marketing site reads
+ * as the same product. App-only concerns (100dvh/overflow:hidden lock, task
+ * cards, sonner, vaul, PWA safe-areas) are intentionally omitted — this is a
+ * normally-scrolling document, not the app shell.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* Radius tokens */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Typography */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-mono:
+    var(--font-jetbrains), "SFMono-Regular", "Menlo", "JetBrains Mono",
+    monospace;
+
+  /* Color tokens — mapped to CSS variables */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-brand: hsl(var(--brand));
+  --color-brand-foreground: hsl(var(--brand-foreground));
+  /* Contrast-tuned indigo for brand-colored TEXT/icons (not fills). The base
+     brand (#4B6CB7) only hits ~3:1 on the dark surface, so a darker shade in
+     light mode and a lighter one in dark mode keep brand accents ≥ WCAG AA. */
+  --color-brand-strong: hsl(var(--brand-strong));
+
+  /* Seijaku Physics — Energized Calm */
+  --ease-seijaku: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Light mode — Zen-Modernist (Matte & Ink) */
+:root {
+  --background: 40 20% 99%; /* #FCFCFA — Warm Washi */
+  --foreground: 0 0% 18%; /* #2E2E2E — Ink */
+  --card: 40 20% 99%;
+  --card-foreground: 0 0% 18%;
+  --popover: 40 20% 99%;
+  --popover-foreground: 0 0% 18%;
+  --primary: 0 0% 18%; /* Ink for primary actions */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 60 9% 96%;
+  --secondary-foreground: 0 0% 18%;
+  --muted: 60 9% 96%;
+  --muted-foreground: 0 0% 43%; /* #6E6E6E — AA on light */
+  --accent: 60 9% 96%;
+  --accent-foreground: 0 0% 18%;
+  --destructive: 12 40% 45%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 60%; /* AA non-text contrast (1.4.11) */
+  --input: 0 0% 60%;
+  --ring: 0 0% 18%;
+  --brand: 220 44% 50%; /* #4B6CB7 — Kagelin Blue */
+  --brand-foreground: 0 0% 100%;
+  --brand-strong: 220 46% 40%; /* darker indigo — ~6.4:1 on Washi */
+}
+
+/* Dark mode — Zen-Modernist (Sumi Ink) */
+.dark {
+  --background: 0 0% 10%; /* #1A1A1A — Sumi Ink */
+  --foreground: 0 0% 90%; /* #E5E5E5 */
+  --card: 0 0% 13%; /* #222222 — Charcoal */
+  --card-foreground: 0 0% 90%;
+  --popover: 0 0% 13%;
+  --popover-foreground: 0 0% 90%;
+  --primary: 0 0% 90%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 0 0% 13%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 0 0% 13%;
+  --muted-foreground: 0 0% 63%; /* #A1A1A1 */
+  --accent: 0 0% 13%;
+  --accent-foreground: 0 0% 90%;
+  --destructive: 12 32% 52%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 34%; /* AA non-text contrast (1.4.11) */
+  --input: 0 0% 34%;
+  --ring: 0 0% 90%;
+  --brand: 220 44% 50%;
+  --brand-foreground: 0 0% 100%;
+  --brand-strong: 219 55% 74%; /* lighter indigo — ~7:1 on Sumi Ink */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+  /* Inputs at 16px prevent iOS zoom (design-system rule). */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Editorial type scale — ported from the app. */
+@layer utilities {
+  .type-h1 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+  @media (min-width: 768px) {
+    .type-h1 {
+      font-size: 52px;
+    }
+  }
+
+  .type-h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  @media (min-width: 768px) {
+    .type-h2 {
+      font-size: 28px;
+    }
+  }
+
+  .type-h3 {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .type-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .type-ui {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  .type-micro {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  /* Mono kicker — the brand line above the H1. */
+  .type-kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .transition-seijaku {
+    transition-timing-function: var(--ease-seijaku);
+    transition-duration: 300ms;
+  }
+}
+
+/* Hide the page scrollbar without disabling scroll (keyboard/wheel/touch all
+   still work). Matches the app's quiet, chrome-free surfaces. */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Chromium & Safari */
+}
+
+/* Respect reduced-motion — degrade all animation to instant (design-system). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
