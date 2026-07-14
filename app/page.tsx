@@ -201,12 +201,19 @@ const SHOTS: {
     caption:
       "Track habits without the guilt. Streaks and a calm grid you can glance at, not a scoreboard.",
   },
+  {
+    src: "screenshots/command-pallete-desktop.png",
+    alt: "Command palette",
+    label: "Command palette",
+    caption:
+      "Press Ctrl or Cmd-K to jump to any task, habit, event, or action. No hunting through menus.",
+  },
 ];
 
 function Screenshots() {
   return (
     <Section className="border-t border-border py-16 md:py-20">
-      <div className="grid gap-10 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 md:gap-10">
         {SHOTS.map((s) => (
           <figure key={s.src}>
             <ScreenshotFrame
@@ -214,7 +221,7 @@ function Screenshots() {
               alt={s.alt}
               label={s.label}
               ready
-              aspect="4 / 3"
+              natural
             />
             <figcaption className="type-body mt-3 text-muted-foreground">
               {s.caption}
