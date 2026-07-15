@@ -91,26 +91,33 @@ export function WaitlistForm({ className }: { className?: string }) {
     return (
       <div
         className={cn(
-          "rounded-xl border border-border/80 bg-card px-5 py-4",
+          "animate-rise-in rounded-xl border border-brand/30 bg-brand/6 px-5 py-4 text-left",
           className,
         )}
         role="status"
         aria-live="polite"
       >
-        <p className="type-body font-medium text-foreground">
-          {status === "founding"
-            ? "You're in."
-            : status === "general"
-              ? "The founding cohort is full, but you're on the list."
-              : "You're already on the list."}
-        </p>
-        <p className="type-body mt-1 text-muted-foreground">
-          {status === "founding"
-            ? "We'll email you when founding invites go out. No spam and no newsletter, just the invite."
-            : status === "general"
-              ? "You're on the general launch list. We'll email you the day Kagelin opens up."
-              : "No need to sign up again. We'll be in touch when invites go out."}
-        </p>
+        <div className="flex items-start gap-2.5">
+          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground">
+            <CheckIcon />
+          </span>
+          <div>
+            <p className="type-body font-medium text-foreground">
+              {status === "founding"
+                ? "You're in."
+                : status === "general"
+                  ? "The founding cohort is full, but you're on the list."
+                  : "You're already on the list."}
+            </p>
+            <p className="type-body mt-1 text-muted-foreground">
+              {status === "founding"
+                ? "We'll email you when founding invites go out. No spam and no newsletter, just the invite."
+                : status === "general"
+                  ? "You're on the general launch list. We'll email you the day Kagelin opens up."
+                  : "No need to sign up again. We'll be in touch when invites go out."}
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -165,5 +172,23 @@ export function WaitlistForm({ className }: { className?: string }) {
         <Turnstile ref={turnstileRef} onVerify={onVerify} onExpire={onExpire} />
       </div>
     </form>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
   );
 }
