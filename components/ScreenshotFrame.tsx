@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 // `ready` renders the real image; otherwise a placeholder. `natural` shows the
@@ -12,6 +13,7 @@ export function ScreenshotFrame({
   className,
   aspect = "16 / 10",
   mobileFocus = "center",
+  sizes = "100vw",
 }: {
   src: string;
   alt: string;
@@ -23,6 +25,8 @@ export function ScreenshotFrame({
   aspect?: string;
   // object-position for the mobile crop — full-bleed shots are unreadable at card width otherwise.
   mobileFocus?: string;
+  // matches the layout's actual rendered width so next/image doesn't over-serve.
+  sizes?: string;
 }) {
   return (
     <figure
@@ -41,7 +45,8 @@ export function ScreenshotFrame({
       </div>
 
       {ready ? (
-        // 1920x1080: PhotoSwipe needs the intrinsic size to size the zoomed view.
+        // Full-size src stays the raw PNG — PhotoSwipe's zoomed view wants the
+        // lossless original, not an optimized/re-encoded copy.
         <a
           href={`/${src}`}
           data-pswp-width={1920}
@@ -49,11 +54,13 @@ export function ScreenshotFrame({
           aria-label={`View full-size screenshot: ${alt}`}
           className="group relative block cursor-zoom-in"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={`/${src}`}
             alt={alt}
-            loading={priority ? "eager" : "lazy"}
+            width={1920}
+            height={1080}
+            sizes={sizes}
+            priority={priority}
             className={cn(
               "block w-full transition-seijaku group-hover:brightness-95",
               natural && "aspect-3/2 object-cover md:aspect-auto md:h-auto",

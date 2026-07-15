@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
@@ -74,8 +75,7 @@ function SiteHeader() {
     <header className="sticky top-0 z-30 border-b border-border bg-background">
       <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-5 md:px-8">
         <Link href="/" className="flex items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/kagelin-icon.png"
             alt="Kagelin"
             width={28}
@@ -135,6 +135,7 @@ function HeroShot() {
         natural
         priority
         mobileFocus="90%"
+        sizes="(min-width: 1360px) 1360px, 100vw"
       />
     </div>
   );
@@ -225,6 +226,7 @@ function Screenshots() {
               ready
               natural
               mobileFocus={s.mobileFocus}
+              sizes="(min-width: 768px) 45vw, 100vw"
             />
             <figcaption className="type-body mt-3 text-muted-foreground">
               {s.caption}
@@ -357,8 +359,7 @@ function SiteFooter() {
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div>
             <div className="flex items-center gap-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/kagelin-icon.png"
                 alt="Kagelin"
                 width={24}
