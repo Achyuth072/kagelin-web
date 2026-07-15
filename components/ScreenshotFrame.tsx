@@ -11,6 +11,7 @@ export function ScreenshotFrame({
   priority = false,
   className,
   aspect = "16 / 10",
+  mobileFocus = "center",
 }: {
   src: string;
   alt: string;
@@ -20,6 +21,11 @@ export function ScreenshotFrame({
   priority?: boolean;
   className?: string;
   aspect?: string;
+  // Horizontal object-position for the mobile crop below. Full-bleed desktop
+  // screenshots are unreadable shrunk to card width, so mobile crops to a
+  // narrower aspect (full height kept, only sides cropped) and zooms in on
+  // whichever part of the shot matters — this points at it.
+  mobileFocus?: string;
 }) {
   return (
     <figure
@@ -43,10 +49,13 @@ export function ScreenshotFrame({
           src={`/${src}`}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
-          className="block w-full"
+          className={cn(
+            "block w-full",
+            natural && "aspect-3/2 object-cover md:aspect-auto md:h-auto",
+          )}
           style={
             natural
-              ? { height: "auto" }
+              ? { objectPosition: mobileFocus }
               : { aspectRatio: aspect, objectFit: "cover", objectPosition: "top" }
           }
         />

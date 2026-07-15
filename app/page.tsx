@@ -133,6 +133,7 @@ function HeroShot() {
         ready
         natural
         priority
+        mobileFocus="90%"
       />
     </div>
   );
@@ -173,6 +174,8 @@ const SHOTS: {
   alt: string;
   label: string;
   caption: string;
+  // Horizontal crop focus for the mobile thumbnail — see ScreenshotFrame.
+  mobileFocus: string;
 }[] = [
   {
     src: "screenshots/calendar-monthly.png",
@@ -180,6 +183,7 @@ const SHOTS: {
     label: "Calendar",
     caption:
       "A real calendar with Google and Outlook sync, not a to-do list with dates bolted on.",
+    mobileFocus: "85%",
   },
   {
     src: "screenshots/timer-with-task.png",
@@ -187,6 +191,7 @@ const SHOTS: {
     label: "Focus timer",
     caption:
       "A quiet Pomodoro timer that stays with you in Picture-in-Picture while you work.",
+    mobileFocus: "center",
   },
   {
     src: "screenshots/habit-grid-desktop.png",
@@ -194,6 +199,7 @@ const SHOTS: {
     label: "Habits",
     caption:
       "Track habits without the guilt. Streaks and a calm grid you can glance at, not a scoreboard.",
+    mobileFocus: "100%",
   },
   {
     src: "screenshots/command-pallete-desktop.png",
@@ -201,6 +207,7 @@ const SHOTS: {
     label: "Command palette",
     caption:
       "Press Ctrl or Cmd-K to jump to any task, habit, event, or action. No hunting through menus.",
+    mobileFocus: "center",
   },
 ];
 
@@ -216,6 +223,7 @@ function Screenshots() {
               label={s.label}
               ready
               natural
+              mobileFocus={s.mobileFocus}
             />
             <figcaption className="type-body mt-3 text-muted-foreground">
               {s.caption}
