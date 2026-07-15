@@ -2,11 +2,10 @@
 
 import { useCallback, useId, useRef, useState } from "react";
 import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
+import { isValidEmail } from "@/lib/email";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "founding" | "general" | "already" | "error";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
@@ -36,7 +35,7 @@ export function WaitlistForm({ className }: { className?: string }) {
 
     // Read the DOM, not state: autofill can set the value without firing onChange.
     const candidate = (inputRef.current?.value ?? email).trim();
-    if (!EMAIL_RE.test(candidate) || candidate.length > 320) {
+    if (!isValidEmail(candidate)) {
       setStatus("error");
       setErrorMsg("That email doesn't look right — mind checking it?");
       return;
