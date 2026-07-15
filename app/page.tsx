@@ -1,6 +1,5 @@
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.kagelin.app";
 const GITHUB_URL =
@@ -92,7 +91,6 @@ function SiteHeader() {
           >
             Open the app
           </a>
-          <ThemeToggle />
         </nav>
       </div>
     </header>
