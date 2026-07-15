@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,7 +17,6 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const SITE_URL = "https://kagelin.app";
 const TITLE = "Kagelin — Work quietly. Own everything.";
 const DESCRIPTION =
   "The productivity app that doesn't fight for your attention. Tasks, focus, habits, and calendar in one calm, offline-first space — no streaks, no badges, no dopamine bait. Free and open source.";
@@ -54,11 +54,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Kagelin",
+  applicationCategory: "ProductivityApplication",
+  operatingSystem: "Web",
+  description: DESCRIPTION,
+  url: SITE_URL,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
+const jsonLdScript = JSON.stringify(jsonLd);
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript }}
+        />
+      </head>
       <body className={`${inter.variable} ${jetbrains.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
