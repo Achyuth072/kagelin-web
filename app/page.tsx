@@ -1,5 +1,6 @@
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
+import { ScreenshotLightbox } from "@/components/ScreenshotLightbox";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.kagelin.app";
 const GITHUB_URL =
@@ -20,6 +21,7 @@ export default function Home() {
         <Faq />
       </main>
       <SiteFooter />
+      <ScreenshotLightbox />
     </div>
   );
 }

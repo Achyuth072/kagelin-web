@@ -44,21 +44,31 @@ export function ScreenshotFrame({
       </div>
 
       {ready ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={`/${src}`}
-          alt={alt}
-          loading={priority ? "eager" : "lazy"}
-          className={cn(
-            "block w-full",
-            natural && "aspect-3/2 object-cover md:aspect-auto md:h-auto",
-          )}
-          style={
-            natural
-              ? { objectPosition: mobileFocus }
-              : { aspectRatio: aspect, objectFit: "cover", objectPosition: "top" }
-          }
-        />
+        // Screenshots are captured at 1920x1080 — PhotoSwipe needs the
+        // intrinsic size up front so it can size the zoomed view correctly.
+        <a
+          href={`/${src}`}
+          data-pswp-width={1920}
+          data-pswp-height={1080}
+          aria-label={`View full-size screenshot: ${alt}`}
+          className="group relative block cursor-zoom-in"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/${src}`}
+            alt={alt}
+            loading={priority ? "eager" : "lazy"}
+            className={cn(
+              "block w-full transition-seijaku group-hover:brightness-95",
+              natural && "aspect-3/2 object-cover md:aspect-auto md:h-auto",
+            )}
+            style={
+              natural
+                ? { objectPosition: mobileFocus }
+                : { aspectRatio: aspect, objectFit: "cover", objectPosition: "top" }
+            }
+          />
+        </a>
       ) : (
         <div
           className="flex flex-col items-center justify-center gap-2 bg-background text-center"
