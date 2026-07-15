@@ -1,16 +1,20 @@
 "use client";
 
 import { useCallback, useId, useRef, useState } from "react";
-import { Turnstile } from "@/components/Turnstile";
+import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "founding" | "general" | "already" | "error";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const tokenRef = useRef<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const turnstileRef = useRef<TurnstileHandle>(null);
   const inputId = useId();
 
   const onVerify = useCallback((token: string) => {
@@ -20,9 +24,24 @@ export function WaitlistForm({ className }: { className?: string }) {
     tokenRef.current = "";
   }, []);
 
+  // The spent token can't be replayed, so every failure needs a fresh one.
+  const resetChallenge = useCallback(() => {
+    tokenRef.current = "";
+    turnstileRef.current?.reset();
+  }, []);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (status === "submitting") return;
+
+    // Read the DOM, not state: autofill can set the value without firing onChange.
+    const candidate = (inputRef.current?.value ?? email).trim();
+    if (!EMAIL_RE.test(candidate) || candidate.length > 320) {
+      setStatus("error");
+      setErrorMsg("That email doesn't look right — mind checking it?");
+      return;
+    }
+
     setStatus("submitting");
     setErrorMsg("");
 
@@ -31,7 +50,7 @@ export function WaitlistForm({ className }: { className?: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email,
+          email: candidate,
           turnstileToken: tokenRef.current,
         }),
       });
@@ -42,6 +61,7 @@ export function WaitlistForm({ className }: { className?: string }) {
       };
 
       if (!res.ok) {
+        resetChallenge();
         setStatus("error");
         setErrorMsg(
           data.error === "invalid_email"
@@ -61,6 +81,7 @@ export function WaitlistForm({ className }: { className?: string }) {
         setStatus("founding");
       }
     } catch {
+      resetChallenge();
       setStatus("error");
       setErrorMsg("Couldn't reach the server. Check your connection and retry.");
     }
@@ -106,6 +127,7 @@ export function WaitlistForm({ className }: { className?: string }) {
         </label>
         <input
           id={inputId}
+          ref={inputRef}
           type="email"
           inputMode="email"
           autoComplete="email"
@@ -140,7 +162,7 @@ export function WaitlistForm({ className }: { className?: string }) {
       </p>
 
       <div className="mt-3">
-        <Turnstile onVerify={onVerify} onExpire={onExpire} />
+        <Turnstile ref={turnstileRef} onVerify={onVerify} onExpire={onExpire} />
       </div>
     </form>
   );

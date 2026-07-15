@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import { useTheme } from "next-themes";
 
 const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
@@ -25,19 +25,34 @@ declare global {
   }
 }
 
+export interface TurnstileHandle {
+  // Tokens are single-use; call after a failed submit to mint a fresh one.
+  reset: () => void;
+}
+
 // When NEXT_PUBLIC_TURNSTILE_SITE_KEY is unset (local dev), renders nothing and
 // the server verify is skipped, so the form stays usable.
 export function Turnstile({
   onVerify,
   onExpire,
+  ref,
 }: {
   onVerify: (token: string) => void;
   onExpire?: () => void;
+  ref?: Ref<TurnstileHandle>;
 }) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const { resolvedTheme } = useTheme();
+
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+    },
+  }), []);
 
   useEffect(() => {
     if (!siteKey) return;

@@ -46,6 +46,7 @@ export async function POST(request: Request) {
       .select("id", { count: "exact", head: true });
 
     if (countError) {
+      console.error("[waitlist] count failed:", countError);
       return NextResponse.json({ error: "server_error" }, { status: 503 });
     }
 
@@ -61,11 +62,13 @@ export async function POST(request: Request) {
       if (insertError.code === "23505") {
         return NextResponse.json({ status: "already" });
       }
+      console.error("[waitlist] insert failed:", insertError);
       return NextResponse.json({ error: "server_error" }, { status: 503 });
     }
 
     return NextResponse.json({ status: "ok", cohort });
-  } catch {
+  } catch (err) {
+    console.error("[waitlist] unexpected:", err);
     return NextResponse.json({ error: "server_error" }, { status: 503 });
   }
 }

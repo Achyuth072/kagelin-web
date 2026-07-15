@@ -24,8 +24,12 @@ export async function verifyTurnstile(
   try {
     const res = await fetch(SITEVERIFY_URL, { method: "POST", body });
     const data = (await res.json()) as SiteverifyResponse;
+    if (data.success !== true) {
+      console.warn("[turnstile] verify failed:", data["error-codes"]);
+    }
     return data.success === true;
-  } catch {
+  } catch (err) {
+    console.error("[turnstile] siteverify unreachable:", err);
     return false;
   }
 }
