@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
 import { ScreenshotLightbox } from "@/components/ScreenshotLightbox";
@@ -72,7 +73,7 @@ function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background">
       <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-5 md:px-8">
-        <a href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/kagelin-icon.png"
@@ -84,7 +85,7 @@ function SiteHeader() {
           <span className="text-[15px] font-semibold tracking-tight text-foreground">
             Kagelin
           </span>
-        </a>
+        </Link>
         <nav className="flex items-center gap-2">
           <GitHubIconLink />
           <a

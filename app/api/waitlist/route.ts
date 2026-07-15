@@ -48,7 +48,8 @@ export async function POST(request: Request) {
       statusText,
     } = await supabase
       .from("waitlist_signups")
-      .select("id", { count: "exact", head: true });
+      .select("id", { count: "exact", head: true })
+      .eq("cohort", "founding");
 
     if (countError) {
       // head:true sends HEAD, so there's no body to parse — the error object is
