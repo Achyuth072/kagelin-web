@@ -22,7 +22,11 @@ export async function verifyTurnstile(
   if (remoteIp) body.append("remoteip", remoteIp);
 
   try {
-    const res = await fetch(SITEVERIFY_URL, { method: "POST", body });
+    const res = await fetch(SITEVERIFY_URL, {
+      method: "POST",
+      body,
+      signal: AbortSignal.timeout(5000),
+    });
     const data = (await res.json()) as SiteverifyResponse;
     if (data.success !== true) {
       console.warn("[turnstile] verify failed:", data["error-codes"]);

@@ -3,7 +3,33 @@
 import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
 import { useTheme } from "next-themes";
 
-const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+const SCRIPT_SRC =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit";
+
+// Shared across all Turnstile instances so concurrent mounts (e.g. two
+// WaitlistForms) inject one script tag and await the same onload callback,
+// instead of racing separate polling loops.
+let turnstileReady: Promise<void> | null = null;
+function loadTurnstile(): Promise<void> {
+  if (window.turnstile) return Promise.resolve();
+  if (!turnstileReady) {
+    turnstileReady = new Promise((resolve, reject) => {
+      window.onloadTurnstileCallback = resolve;
+      const script = document.createElement("script");
+      script.src = SCRIPT_SRC;
+      script.async = true;
+      script.defer = true;
+      // Without this, a blocked/failed load (ad-blockers commonly target
+      // Turnstile) leaves every mount awaiting a promise that never settles.
+      script.onerror = () => {
+        turnstileReady = null;
+        reject(new Error("Failed to load Turnstile script"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+  return turnstileReady;
+}
 
 interface TurnstileRenderOptions {
   sitekey: string;
@@ -56,42 +82,29 @@ export function Turnstile({
 
   useEffect(() => {
     if (!siteKey) return;
+    let cancelled = false;
 
-    const render = () => {
-      if (!containerRef.current || !window.turnstile) return;
-      if (widgetIdRef.current) return; // already rendered
-      widgetIdRef.current = window.turnstile.render(containerRef.current, {
-        sitekey: siteKey,
-        theme: resolvedTheme === "dark" ? "dark" : "light",
-        size: "flexible",
-        callback: onVerify,
-        "expired-callback": onExpire,
+    loadTurnstile()
+      .then(() => {
+        if (cancelled || !containerRef.current || !window.turnstile) return;
+        widgetIdRef.current = window.turnstile.render(containerRef.current, {
+          sitekey: siteKey,
+          theme: resolvedTheme === "dark" ? "dark" : "light",
+          size: "flexible",
+          callback: onVerify,
+          "expired-callback": onExpire,
+        });
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) console.error("[turnstile] script load failed:", err);
       });
-    };
 
-    if (window.turnstile) {
-      render();
-    } else if (!document.querySelector(`script[src="${SCRIPT_SRC}"]`)) {
-      const script = document.createElement("script");
-      script.src = SCRIPT_SRC;
-      script.async = true;
-      script.defer = true;
-      script.onload = render;
-      document.head.appendChild(script);
-    } else {
-      // Script tag exists but not yet ready — poll briefly.
-      const t = setInterval(() => {
-        if (window.turnstile) {
-          clearInterval(t);
-          render();
-        }
-      }, 100);
-      return () => clearInterval(t);
-    }
-
-    const id = widgetIdRef.current;
     return () => {
-      if (id && window.turnstile) window.turnstile.remove(id);
+      cancelled = true;
+      // Read the ref live, not a value captured before render() ran async.
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
+      }
       widgetIdRef.current = null;
     };
     // resolvedTheme omitted: re-rendering on theme flip drops an in-progress token.
