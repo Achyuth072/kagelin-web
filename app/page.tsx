@@ -226,7 +226,8 @@ function Screenshots() {
               ready
               natural
               mobileFocus={s.mobileFocus}
-              sizes="(min-width: 768px) 45vw, 100vw"
+              // 588px: one grid column once max-w-7xl caps the container (1216px content, gap-10).
+              sizes="(min-width: 1280px) 588px, (min-width: 768px) 45vw, 100vw"
             />
             <figcaption className="type-body mt-3 text-muted-foreground">
               {s.caption}
