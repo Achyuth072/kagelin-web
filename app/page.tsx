@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-clip bg-background">
       <SiteHeader />
-      <main>
+      <main id="screenshot-gallery">
         <Hero />
         <HeroShot />
         <Pillars />

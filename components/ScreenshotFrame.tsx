@@ -21,10 +21,7 @@ export function ScreenshotFrame({
   priority?: boolean;
   className?: string;
   aspect?: string;
-  // Horizontal object-position for the mobile crop below. Full-bleed desktop
-  // screenshots are unreadable shrunk to card width, so mobile crops to a
-  // narrower aspect (full height kept, only sides cropped) and zooms in on
-  // whichever part of the shot matters — this points at it.
+  // object-position for the mobile crop — full-bleed shots are unreadable at card width otherwise.
   mobileFocus?: string;
 }) {
   return (
@@ -44,8 +41,7 @@ export function ScreenshotFrame({
       </div>
 
       {ready ? (
-        // Screenshots are captured at 1920x1080 — PhotoSwipe needs the
-        // intrinsic size up front so it can size the zoomed view correctly.
+        // 1920x1080: PhotoSwipe needs the intrinsic size to size the zoomed view.
         <a
           href={`/${src}`}
           data-pswp-width={1920}
