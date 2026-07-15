@@ -41,12 +41,22 @@ export async function POST(request: Request) {
     const supabase = createAdminClient();
 
     // Past the cap, still capture the email for the general launch list.
-    const { count, error: countError } = await supabase
+    const {
+      count,
+      error: countError,
+      status,
+      statusText,
+    } = await supabase
       .from("waitlist_signups")
       .select("id", { count: "exact", head: true });
 
     if (countError) {
-      console.error("[waitlist] count failed:", countError);
+      // head:true sends HEAD, so there's no body to parse — the error object is
+      // empty and the HTTP status is the only signal.
+      console.error(
+        `[waitlist] count failed: HTTP ${status} ${statusText}`,
+        countError,
+      );
       return NextResponse.json({ error: "server_error" }, { status: 503 });
     }
 
