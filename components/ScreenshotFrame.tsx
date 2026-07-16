@@ -12,7 +12,6 @@ export function ScreenshotFrame({
   priority = false,
   className,
   aspect = "16 / 10",
-  mobileFocus = "center",
   sizes = "100vw",
 }: {
   src: string;
@@ -23,8 +22,6 @@ export function ScreenshotFrame({
   priority?: boolean;
   className?: string;
   aspect?: string;
-  // object-position for the mobile crop — full-bleed shots are unreadable at card width otherwise.
-  mobileFocus?: string;
   // matches the layout's actual rendered width so next/image doesn't over-serve.
   sizes?: string;
 }) {
@@ -63,11 +60,11 @@ export function ScreenshotFrame({
             priority={priority}
             className={cn(
               "block w-full transition-seijaku group-hover:brightness-95",
-              natural && "aspect-3/2 object-cover md:aspect-auto md:h-auto",
+              natural && "h-auto",
             )}
             style={
               natural
-                ? { objectPosition: mobileFocus }
+                ? undefined
                 : { aspectRatio: aspect, objectFit: "cover", objectPosition: "top" }
             }
           />

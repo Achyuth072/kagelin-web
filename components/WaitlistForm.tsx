@@ -141,12 +141,12 @@ export function WaitlistForm({ className }: { className?: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="h-11 flex-1 rounded-lg border border-input bg-background px-3.5 text-foreground placeholder:text-muted-foreground transition-seijaku focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:outline-none"
+          className="h-12 w-full rounded-lg border border-input bg-background px-3.5 text-foreground placeholder:text-muted-foreground transition-seijaku focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:outline-none sm:h-11 sm:w-auto sm:flex-1"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="h-11 shrink-0 rounded-lg bg-brand px-5 font-medium text-brand-foreground shadow-sm shadow-brand/10 transition-seijaku hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+          className="h-12 shrink-0 rounded-lg bg-brand px-5 font-medium text-brand-foreground shadow-sm shadow-brand/10 transition-seijaku hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:h-11"
         >
           {status === "submitting" ? "One moment…" : "Join the waitlist"}
         </button>

@@ -193,9 +193,26 @@
 /* Hide the page scrollbar without disabling scroll. */
 html {
   scrollbar-width: none;
+  /* Lets the FAQ accordion animate to its natural height (progressive). */
+  interpolate-size: allow-keywords;
 }
 html::-webkit-scrollbar {
   display: none;
+}
+
+/* FAQ accordion: drop the native marker, ease the open. */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 300ms var(--ease-seijaku),
+    content-visibility 300ms allow-discrete;
+}
+.faq-item[open]::details-content {
+  block-size: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

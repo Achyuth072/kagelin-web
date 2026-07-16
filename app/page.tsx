@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
+import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { ScreenshotLightbox } from "@/components/ScreenshotLightbox";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.kagelin.app";
@@ -134,7 +135,6 @@ function HeroShot() {
         ready
         natural
         priority
-        mobileFocus="90%"
         sizes="(min-width: 1360px) 1360px, 100vw"
       />
     </div>
@@ -171,70 +171,10 @@ function Pillars() {
   );
 }
 
-const SHOTS: {
-  src: string;
-  alt: string;
-  label: string;
-  caption: string;
-  // Horizontal crop focus for the mobile thumbnail — see ScreenshotFrame.
-  mobileFocus: string;
-}[] = [
-  {
-    src: "screenshots/calendar-monthly.png",
-    alt: "Calendar",
-    label: "Calendar",
-    caption:
-      "A real calendar with Google and Outlook sync, not a to-do list with dates bolted on.",
-    mobileFocus: "85%",
-  },
-  {
-    src: "screenshots/timer-with-task.png",
-    alt: "Focus timer",
-    label: "Focus timer",
-    caption:
-      "A quiet Pomodoro timer that stays with you in Picture-in-Picture while you work.",
-    mobileFocus: "center",
-  },
-  {
-    src: "screenshots/habit-grid-desktop.png",
-    alt: "Habits",
-    label: "Habits",
-    caption:
-      "Track habits without the guilt. Streaks and a calm grid you can glance at, not a scoreboard.",
-    mobileFocus: "100%",
-  },
-  {
-    src: "screenshots/command-pallete-desktop.png",
-    alt: "Command palette",
-    label: "Command palette",
-    caption:
-      "Press Ctrl or Cmd-K to jump to any task, habit, event, or action. No hunting through menus.",
-    mobileFocus: "center",
-  },
-];
-
 function Screenshots() {
   return (
     <Section className="border-t border-border py-16 md:py-20">
-      <div className="grid gap-8 md:grid-cols-2 md:gap-10">
-        {SHOTS.map((s) => (
-          <figure key={s.src}>
-            <ScreenshotFrame
-              src={s.src}
-              alt={s.alt}
-              label={s.label}
-              ready
-              natural
-              mobileFocus={s.mobileFocus}
-              // 588px: one grid column once max-w-7xl caps the container (1216px content, gap-10).
-              sizes="(min-width: 1280px) 588px, (min-width: 768px) 45vw, 100vw"
-            />
-            <figcaption className="type-body mt-3 text-muted-foreground">
-              {s.caption}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <ScreenshotGallery />
     </Section>
   );
 }
@@ -249,12 +189,17 @@ function AlsoLine() {
   ];
   return (
     <Section className="border-t border-border py-10">
-      <p className="type-ui flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-muted-foreground">
+      <p className="type-ui flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-muted-foreground sm:justify-start">
         <span className="text-foreground">Also</span>
         {items.map((item, i) => (
-          <span key={item} className="flex items-center gap-x-3">
-            {i > 0 && <span className="text-muted-foreground">·</span>}
+          <span
+            key={item}
+            className="flex items-center gap-x-3 whitespace-nowrap"
+          >
             <span>{item}</span>
+            {i < items.length - 1 && (
+              <span className="hidden text-muted-foreground sm:inline">·</span>
+            )}
           </span>
         ))}
       </p>
@@ -341,15 +286,41 @@ function Faq() {
   return (
     <Section className="border-t border-border py-16 md:py-20">
       <h2 className="type-h2 text-foreground">Questions</h2>
-      <dl className="mt-8 grid gap-8 md:grid-cols-2 md:gap-x-12 md:gap-y-10">
+      <div className="mt-8 max-w-2xl">
         {FAQ.map((item) => (
-          <div key={item.q}>
-            <dt className="type-h3 text-foreground">{item.q}</dt>
-            <dd className="type-body mt-2 text-muted-foreground">{item.a}</dd>
-          </div>
+          <details
+            key={item.q}
+            name="faq"
+            className="faq-item group"
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 md:w-fit md:gap-3">
+              <span className="type-h3 text-foreground">{item.q}</span>
+              <ChevronIcon className="shrink-0 text-muted-foreground transition-seijaku group-open:rotate-180" />
+            </summary>
+            <p className="type-body pb-4 text-muted-foreground">{item.a}</p>
+          </details>
         ))}
-      </dl>
+      </div>
     </Section>
+  );
+}
+
+function ChevronIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
   );
 }
 
@@ -374,7 +345,7 @@ function SiteFooter() {
             <p className="type-micro mt-2.5 text-muted-foreground">
               Work quietly. Own everything. · AGPL-3.0
             </p>
-            <p className="type-micro mt-2 max-w-sm text-muted-foreground">
+            <p className="type-micro mt-2 max-w-sm leading-relaxed text-muted-foreground">
               We only use your email to send launch invites. You can ask us to
               delete it anytime.
             </p>
