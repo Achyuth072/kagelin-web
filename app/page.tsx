@@ -189,13 +189,14 @@ function AlsoLine() {
   ];
   return (
     <Section className="border-t border-border py-10">
-      <p className="type-ui flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-muted-foreground sm:justify-start">
+      <p className="type-ui flex flex-col items-start gap-y-2 font-mono text-muted-foreground sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-x-3">
         <span className="text-foreground">Also</span>
         {items.map((item, i) => (
           <span
             key={item}
             className="flex items-center gap-x-3 whitespace-nowrap"
           >
+            <span className="text-muted-foreground sm:hidden">·</span>
             <span>{item}</span>
             {i < items.length - 1 && (
               <span className="hidden text-muted-foreground sm:inline">·</span>
