@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "waitlist": "node --env-file=.env.local scripts/waitlist.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
