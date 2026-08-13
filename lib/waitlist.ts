@@ -9,6 +9,7 @@ export interface JoinWaitlistDeps {
     email: string,
     cohort: SignupCohort,
   ) => Promise<{ ok: true } | { ok: false; reason: "duplicate" | "other" }>;
+  sendConfirmationEmail: (email: string) => Promise<void>;
   foundingCap: number;
 }
 
@@ -46,6 +47,14 @@ export async function joinWaitlist(
         return { status: "already" };
       }
       return { status: "server_error" };
+    }
+
+    // Best-effort: the row is already committed, so a failed send must not
+    // turn a successful signup into an error response.
+    try {
+      await deps.sendConfirmationEmail(email);
+    } catch (err) {
+      console.error("[waitlist] confirmation email failed:", err);
     }
 
     return { status: "ok", cohort };

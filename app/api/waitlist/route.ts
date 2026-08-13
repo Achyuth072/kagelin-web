@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { joinWaitlist } from "@/lib/waitlist";
 import { countFoundingSignups, insertSignup } from "@/lib/waitlist-db";
+import { getResendClient, sendWaitlistConfirmationEmail } from "@/lib/waitlist-email";
 
 const FOUNDING_CAP = Number(process.env.WAITLIST_FOUNDING_CAP ?? "25");
 
@@ -35,6 +36,16 @@ export async function POST(request: Request) {
       foundingCap: FOUNDING_CAP,
       countFoundingSignups: () => countFoundingSignups(getSupabase()),
       insertSignup: (email, cohort) => insertSignup(getSupabase(), email, cohort),
+      // Deferred past the response via after() — a Resend round-trip has no
+      // business gating signup latency for a best-effort confirmation email.
+      sendConfirmationEmail: (email) => {
+        after(() =>
+          sendWaitlistConfirmationEmail(getResendClient(), email).catch((err) => {
+            console.error("[waitlist] confirmation email failed:", err);
+          }),
+        );
+        return Promise.resolve();
+      },
     });
 
     switch (result.status) {

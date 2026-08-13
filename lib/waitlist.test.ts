@@ -27,6 +27,7 @@ function makeDeps(
     verifyTurnstile: async () => true,
     countFoundingSignups: db.countFoundingSignups,
     insertSignup: db.insertSignup,
+    sendConfirmationEmail: async () => {},
     ...overrides,
   };
 }
@@ -144,5 +145,50 @@ describe("joinWaitlist", () => {
       }),
     );
     expect(result).toEqual({ status: "server_error" });
+  });
+
+  it("sends a confirmation email on a successful signup", async () => {
+    const sent: string[] = [];
+    const result = await joinWaitlist(
+      "person@example.com",
+      "token",
+      undefined,
+      makeDeps([], {
+        sendConfirmationEmail: async (email) => {
+          sent.push(email);
+        },
+      }),
+    );
+    expect(result).toEqual({ status: "ok", cohort: "founding" });
+    expect(sent).toEqual(["person@example.com"]);
+  });
+
+  it("does not attempt to send an email for a duplicate signup", async () => {
+    let called = false;
+    await joinWaitlist(
+      "dup@example.com",
+      "token",
+      undefined,
+      makeDeps([{ email: "dup@example.com", cohort: "founding" }], {
+        sendConfirmationEmail: async () => {
+          called = true;
+        },
+      }),
+    );
+    expect(called).toBe(false);
+  });
+
+  it("still reports a successful signup even when the confirmation email fails to send", async () => {
+    const result = await joinWaitlist(
+      "person@example.com",
+      "token",
+      undefined,
+      makeDeps([], {
+        sendConfirmationEmail: async () => {
+          throw new Error("resend unreachable");
+        },
+      }),
+    );
+    expect(result).toEqual({ status: "ok", cohort: "founding" });
   });
 });
