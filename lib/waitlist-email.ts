@@ -1,14 +1,14 @@
 import { Resend } from "resend";
 
 const FROM = "Kagelin <noreply@kagelin.app>";
-const SUBJECT = "You're on the Kagelin waitlist";
+const SUBJECT = "You're on the Kagelin closed Beta waitlist!";
 const CONFIRMATION_TEXT = [
-  "Thanks for signing up for the Kagelin waitlist.",
+  "Thanks for signing up for the Kagelin closed Beta waitlist.",
   "",
-  "We'll email you when it's your turn to try Kagelin — no action needed",
+  "We'll email you when it's your turn to try Kagelin, no other action needed",
   "from you in the meantime.",
   "",
-  "— Kagelin",
+  "— Kagelin Team",
 ].join("\n");
 
 export async function sendWaitlistConfirmationEmail(

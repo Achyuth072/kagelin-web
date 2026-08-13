@@ -1,4 +1,5 @@
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { WaitlistProvider } from "@/components/WaitlistProvider";
 import { ScreenshotFrame } from "@/components/ScreenshotFrame";
 import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { ScreenshotLightbox } from "@/components/ScreenshotLightbox";
@@ -13,16 +14,18 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-clip bg-background">
       <SiteHeader />
-      <main id="screenshot-gallery">
-        <Hero />
-        <HeroShot />
-        <Pillars />
-        <Screenshots />
-        <AlsoLine />
-        <FoundingTester />
-        <Sustains />
-        <Faq />
-      </main>
+      <WaitlistProvider>
+        <main id="screenshot-gallery">
+          <Hero />
+          <HeroShot />
+          <Pillars />
+          <Screenshots />
+          <AlsoLine />
+          <FoundingTester />
+          <Sustains />
+          <Faq />
+        </main>
+      </WaitlistProvider>
       <SiteFooter />
       <ScreenshotLightbox />
     </div>

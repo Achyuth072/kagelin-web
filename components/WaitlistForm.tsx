@@ -2,14 +2,16 @@
 
 import { useCallback, useId, useRef, useState } from "react";
 import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
+import { useWaitlistConfirmation } from "@/components/WaitlistProvider";
 import { isValidEmail } from "@/lib/email";
 import { cn } from "@/lib/utils";
 
-type Status = "idle" | "submitting" | "founding" | "general" | "already" | "error";
+type Phase = "idle" | "submitting" | "error";
 
 export function WaitlistForm({ className }: { className?: string }) {
+  const { confirmation, setConfirmation } = useWaitlistConfirmation();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
+  const [phase, setPhase] = useState<Phase>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const tokenRef = useRef<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,17 +33,17 @@ export function WaitlistForm({ className }: { className?: string }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (status === "submitting") return;
+    if (phase === "submitting") return;
 
     // Read the DOM, not state: autofill can set the value without firing onChange.
     const candidate = (inputRef.current?.value ?? email).trim();
     if (!isValidEmail(candidate)) {
-      setStatus("error");
+      setPhase("error");
       setErrorMsg("That email doesn't look right — mind checking it?");
       return;
     }
 
-    setStatus("submitting");
+    setPhase("submitting");
     setErrorMsg("");
 
     try {
@@ -61,7 +63,7 @@ export function WaitlistForm({ className }: { className?: string }) {
 
       if (!res.ok) {
         resetChallenge();
-        setStatus("error");
+        setPhase("error");
         setErrorMsg(
           data.error === "invalid_email"
             ? "That email doesn't look right — mind checking it?"
@@ -73,20 +75,20 @@ export function WaitlistForm({ className }: { className?: string }) {
       }
 
       if (data.status === "already") {
-        setStatus("already");
+        setConfirmation("already");
       } else if (data.cohort === "general") {
-        setStatus("general");
+        setConfirmation("general");
       } else {
-        setStatus("founding");
+        setConfirmation("founding");
       }
     } catch {
       resetChallenge();
-      setStatus("error");
+      setPhase("error");
       setErrorMsg("Couldn't reach the server. Check your connection and retry.");
     }
   }
 
-  if (status === "founding" || status === "general" || status === "already") {
+  if (confirmation) {
     return (
       <div
         className={cn(
@@ -102,16 +104,16 @@ export function WaitlistForm({ className }: { className?: string }) {
           </span>
           <div>
             <p className="type-body font-medium text-foreground">
-              {status === "founding"
+              {confirmation === "founding"
                 ? "You're in."
-                : status === "general"
+                : confirmation === "general"
                   ? "The founding cohort is full, but you're on the list."
                   : "You're already on the list."}
             </p>
             <p className="type-body mt-1 text-muted-foreground">
-              {status === "founding"
+              {confirmation === "founding"
                 ? "We'll email you when founding invites go out. No spam and no newsletter, just the invite."
-                : status === "general"
+                : confirmation === "general"
                   ? "You're on the general launch list. We'll email you the day Kagelin opens up."
                   : "No need to sign up again. We'll be in touch when invites go out."}
             </p>
@@ -145,14 +147,14 @@ export function WaitlistForm({ className }: { className?: string }) {
         />
         <button
           type="submit"
-          disabled={status === "submitting"}
+          disabled={phase === "submitting"}
           className="h-12 shrink-0 rounded-lg bg-brand px-5 font-medium text-brand-foreground shadow-sm shadow-brand/10 transition-seijaku hover:bg-brand/90 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:h-11"
         >
-          {status === "submitting" ? "One moment…" : "Join the waitlist"}
+          {phase === "submitting" ? "One moment…" : "Join the waitlist"}
         </button>
       </div>
 
-      {status === "error" && (
+      {phase === "error" && (
         <p
           className="type-ui mt-2 text-destructive"
           role="alert"
