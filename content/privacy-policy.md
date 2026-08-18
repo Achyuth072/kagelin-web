@@ -1,6 +1,6 @@
 # Kagelin — Privacy Policy
 
-*Last updated: 2026-07-20.* **Not legal advice.** A plain-language description of how Kagelin
+*Last updated: 2026-08-18.* **Not legal advice.** A plain-language description of how Kagelin
 handles your data.
 
 ---
@@ -28,7 +28,7 @@ policy applies.
 
 | Category | What | Why | Optional? |
 |---|---|---|---|
-| Account | Email address (magic-link sign-in via Supabase Auth); display name, timezone, notification preferences | Sign-in, personalization | Email required; the rest optional |
+| Account | Email address (sign-in via magic link, password, or OAuth — Google, GitHub, or GitLab — via Supabase Auth); a hashed password, if you set one; display name, timezone, notification preferences | Sign-in, personalization | Email required; the rest optional |
 | App content | Tasks, projects, habits, focus session logs, calendar events you create | Core functionality | N/A (this is the product) |
 | Calendar sync | Google/Outlook OAuth refresh tokens (encrypted at rest, AES-GCM, accessible only to backend service-role code, never the client or database viewer), calendar IDs, sync metadata | Two-way calendar sync | Optional; only if you connect a calendar |
 | Cloud backup | WebDAV server URL, username, password: **held in memory only for your session; never written to a database or browser storage; cleared on page reload** | One-time backup upload/download to a server you control (e.g. Nextcloud) | Optional |
@@ -37,6 +37,14 @@ policy applies.
 
 We do not collect: phone number, physical address, government ID, payment/financial information
 (no billing exists yet), or social-media profile data (no "Sign in with Facebook/Twitter").
+
+**Founding cohort:** if you signed up for our early-access waitlist (kagelin.app's homepage) as
+part of the founding cohort, we hold that signup (email, cohort, invite/grant timestamps) in the
+same database as registered accounts. When you confirm an app account using that same email, we
+automatically check it against your waitlist signup and, on a match, apply the founding-cohort
+offer to your account (see Section 8 of the [Terms of Service](/terms) for what that offer is).
+This check is automatic and internal — the waitlist data isn't shared with any processor beyond
+what's already listed in Section 4.
 
 ## 4. Who we share data with
 
@@ -51,8 +59,14 @@ no ads and no ad-tech integrations. We use these processors to operate the servi
 - **Upstash**: rate limiting. Sees only an IP address or user ID and the fact of a request,
   never your task/account content.
 - **Cloudflare (Turnstile)**: bot-prevention challenge on the sign-in form.
+- **Have I Been Pwned (pwnedpasswords.com API)**: checked when you set a password, to warn you
+  if it's been exposed in a known breach. Only a 5-character prefix of your password's SHA-1
+  hash is sent (k-anonymity); your password and account identity never leave your device for
+  this check.
 - **Google / Microsoft**: only if you connect a calendar, governed by your existing
   relationship with those providers as well as this policy.
+- **Cloudflare R2**: stores our nightly, GPG-encrypted (AES-256) full database backup, as a
+  disaster-recovery backstop. Not accessible without the separately-held encryption passphrase.
 
 Each processor is bound by its own terms; we don't share data with anyone beyond what's needed
 to run the listed feature.
@@ -110,6 +124,11 @@ underlying account itself) is currently handled manually during beta.** Email
 within **30 days**. *(A self-serve "Delete my account" flow is planned before the app exits
 beta.)*
 
+This doesn't reach our nightly encrypted database backups (Section 4): those roll off
+automatically **30 days** after the night they were taken, regardless of when you delete your
+account or data in between, since they're whole-database snapshots rather than per-account
+records.
+
 ## 8. India DPDP Act notice & Grievance Officer
 
 Under India's Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025, we act as a
@@ -140,9 +159,13 @@ acknowledgment. If you believe someone under 18 has an account, contact us and w
 
 - Calendar OAuth refresh tokens: encrypted at rest (AES-GCM), service-role-only access.
 - WebDAV credentials: never persisted, in-memory for the session only.
-- Database access: row-level security scoped to your account.
-- Task/habit content itself is not yet encrypted at rest; planned as post-beta
-  storage-security work.
+- Database access: row-level security scoped to your account governs what the app itself can
+  read on your behalf. It does not limit us: as the operator, we have administrative access to
+  the underlying database (via Supabase) for operations, debugging, and support.
+- Sensitive account changes (like setting a password) require reauthentication.
+- Task/habit content itself is not yet encrypted at rest, so it's currently readable through
+  that administrative access. We're committed to closing this before opening signups beyond
+  the current invite-only cohort — not deferred to some later, unspecified "post-beta."
 
 No system is perfectly secure; we can't guarantee absolute security, but we design for it.
 

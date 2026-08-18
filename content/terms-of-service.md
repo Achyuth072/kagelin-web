@@ -1,6 +1,6 @@
 # Kagelin — Terms of Service
 
-*Last updated: 2026-07-20.* **Not legal advice.** A plain-language description of the terms
+*Last updated: 2026-08-18.* **Not legal advice.** A plain-language description of the terms
 governing your use of Kagelin.
 
 ---
@@ -35,9 +35,10 @@ collected, but the same 18+ expectation applies. Kagelin is not directed at chil
   for not collecting anything. We're aware of this limitation: native apps for most platforms
   are planned to keep Guest Mode data reliably on-device rather than relying solely on browser
   storage.
-- **Registered accounts:** sign in via email magic-link. You're responsible for keeping access to
-  your email, since that's the sole authentication factor. Notify us if you suspect unauthorized
-  account access.
+- **Registered accounts:** sign in via email magic-link, email/password, or OAuth (Google,
+  GitHub, GitLab). You're responsible for keeping access to whichever methods you've set up, and
+  we require reauthentication before sensitive account changes (like setting a password). Notify
+  us if you suspect unauthorized account access.
 - You may connect optional third-party integrations (Google Calendar, Outlook Calendar, a
   self-hosted WebDAV server for backup). Connecting them is your choice and revocable at any time
   in Settings.
@@ -55,9 +56,9 @@ proxy, which forwards to servers you specify; you are responsible for what you p
 THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY OF ANY KIND, DURING BETA.
 We do not guarantee uptime, data durability, or that features will remain unchanged.
 **Back up your data.** Guest Mode via the export feature; registered accounts via the same
-export or by requesting a copy (Privacy Policy, Section 7). We run backups on our production
-database, but you should not treat that as a substitute for your own export, especially during
-beta.
+export or by requesting a copy (Privacy Policy, Section 7). We run nightly encrypted backups of
+our production database (Privacy Policy, Section 4), but you should not treat that as a
+substitute for your own export, especially during beta.
 
 ## 7. Third-party services
 
@@ -69,9 +70,14 @@ forwards your request, it doesn't vouch for the destination.
 
 ## 8. Payments
 
-Kagelin does not currently charge for any feature. If a paid ("Premium") tier launches in the
-future, these Terms will be updated with billing-specific provisions (pricing, refunds, and the
-payment processor used) before that tier goes live, and you'll be notified.
+Kagelin does not currently charge for any feature, and no feature currently behaves differently
+based on account tier. If you joined our early-access waitlist as part of the founding cohort and
+later confirm an app account with that same email, your account is automatically marked with the
+founding-cohort offer: free for one year from that grant, then discounted for life afterward —
+though until a paid ("Premium") tier actually launches with features gated behind it, that mark
+has no practical effect. Before that tier goes live, these Terms will be updated with
+billing-specific provisions (pricing, refunds, and the payment processor used), and you'll be
+notified.
 
 ## 9. Intellectual property & open source
 
