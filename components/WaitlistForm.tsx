@@ -114,7 +114,7 @@ export function WaitlistForm({ className }: { className?: string }) {
               {confirmation === "founding"
                 ? "We'll email you when founding invites go out. No spam and no newsletter, just the invite."
                 : confirmation === "general"
-                  ? "You're on the general launch list. We'll email you the day Kagelin opens up."
+                  ? "You're on the general launch list. We'll email you the day Kagelin opens up. In the meantime, guest mode is open and can be used anytime."
                   : "No need to sign up again. We'll be in touch when invites go out."}
             </p>
           </div>
