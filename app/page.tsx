@@ -8,6 +8,7 @@ import {
   SiteHeader,
   SiteFooter,
   GitHubIcon,
+  KofiIcon,
 } from "@/components/SiteChrome";
 
 export default function Home() {
@@ -179,7 +180,7 @@ function Sustains() {
         <p className="type-body mt-3 text-muted-foreground">
           You can also support the project directly.
         </p>
-        <div className="mt-5">
+        <div className="mt-5 flex flex-wrap items-center gap-3">
           <a
             href="https://github.com/sponsors/Achyuth072"
             target="_blank"
@@ -188,6 +189,15 @@ function Sustains() {
           >
             <GitHubIcon />
             GitHub Sponsors
+          </a>
+          <a
+            href="https://ko-fi.com/oneakira"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="type-ui inline-flex h-9 items-center gap-2 rounded-lg border border-border/80 px-4 text-foreground transition-seijaku hover:bg-secondary"
+          >
+            <KofiIcon />
+            Ko-fi
           </a>
         </div>
       </div>
