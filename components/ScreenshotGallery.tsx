@@ -6,28 +6,28 @@ import { cn } from "@/lib/utils";
 
 const SHOTS: { src: string; alt: string; label: string; caption: string }[] = [
   {
-    src: "screenshots/calendar-monthly.png",
+    src: "screenshots/calendar-monthly.webp",
     alt: "Calendar",
     label: "Calendar",
     caption:
       "A real calendar with Google and Outlook sync, not a to-do list with dates bolted on.",
   },
   {
-    src: "screenshots/timer-with-task.png",
+    src: "screenshots/timer-with-task.webp",
     alt: "Focus timer",
     label: "Focus timer",
     caption:
       "A quiet Pomodoro timer that stays with you in Picture-in-Picture while you work.",
   },
   {
-    src: "screenshots/habit-grid-desktop.png",
+    src: "screenshots/habit-grid-desktop.webp",
     alt: "Habits",
     label: "Habits",
     caption:
       "Track habits without the guilt. Streaks and a calm grid you can glance at, not a scoreboard.",
   },
   {
-    src: "screenshots/command-pallete-desktop.png",
+    src: "screenshots/command-pallete-desktop.webp",
     alt: "Command palette",
     label: "Command palette",
     caption:

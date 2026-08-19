@@ -61,7 +61,7 @@ function HeroShot() {
   return (
     <div className="mx-auto w-full max-w-340 px-5 pb-16 md:px-8 md:pb-24">
       <ScreenshotFrame
-        src="screenshots/board-view-desktop.png"
+        src="screenshots/board-view-desktop.webp"
         alt="Board view"
         label="Board view"
         ready
