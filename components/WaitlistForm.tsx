@@ -166,7 +166,8 @@ export function WaitlistForm({ className }: { className?: string }) {
 
       <p className="mt-2.5 text-[11px] leading-relaxed text-muted-foreground">
         Founding invites are limited and go to testers who actually try it. No
-        spam, no newsletter.
+        spam, no newsletter. Guest mode is not invite-only and can be used
+        anytime.
       </p>
 
       <div className="mt-3">

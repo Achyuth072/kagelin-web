@@ -202,11 +202,11 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Do I need an account?",
-    a: "No. Guest mode gives you everything, offline, with your data kept on your device. You only make an account if you want to sync across devices.",
+    a: "No. Guest mode is not invite-only and can be used anytime. It gives you everything offline, with your data kept on your device. You only make an account if you want to sync across devices.",
   },
   {
     q: "When does it launch?",
-    a: "It's in preview now, opening to founding testers first. Join the list and we'll email you when invites go out. No spam, no newsletter.",
+    a: "It is in preview now, opening to founding testers first. Guest mode can be used anytime, and you can join the list for cloud sync invites.",
   },
   {
     q: "Is my data private?",
