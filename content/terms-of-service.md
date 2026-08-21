@@ -1,6 +1,6 @@
 # Kagelin — Terms of Service
 
-*Last updated: 2026-08-18.* **Not legal advice.** A plain-language description of the terms
+*Last updated: 2026-08-21.* **Not legal advice.** A plain-language description of the terms
 governing your use of Kagelin.
 
 ---
@@ -30,7 +30,8 @@ collected, but the same 18+ expectation applies. Kagelin is not directed at chil
 
 ## 4. Accounts and Guest Mode
 
-- **Guest Mode:** no account, no server-side data. Your data lives in your browser only. We
+- **Guest Mode:** no account, no server-side data beyond anonymous telemetry you explicitly opt
+  into (see Privacy Policy, Section 5). Your task/habit data lives in your browser only. We
   can't recover it if you clear your browser storage or switch devices; that is the trade-off
   for not collecting anything. We're aware of this limitation: native apps for most platforms
   are planned to keep Guest Mode data reliably on-device rather than relying solely on browser

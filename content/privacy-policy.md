@@ -1,6 +1,6 @@
 # Kagelin — Privacy Policy
 
-*Last updated: 2026-08-18.* **Not legal advice.** A plain-language description of how Kagelin
+*Last updated: 2026-08-21.* **Not legal advice.** A plain-language description of how Kagelin
 handles your data.
 
 ---
@@ -18,11 +18,11 @@ native apps, encrypted-at-rest content) ship; check the "last updated" date abov
 
 ## 2. Guest Mode: the default is zero collection
 
-If you use Kagelin without creating an account, **we never receive your data.** Tasks, habits,
-focus sessions, and settings are stored only in your browser's local storage, on your device.
-Nothing described in this policy applies to Guest Mode use, because nothing leaves your device.
-Switching to an account moves your local data to our servers, at which point the rest of this
-policy applies.
+If you use Kagelin without creating an account, **we never receive your task, habit, or focus
+data.** Tasks, habits, focus sessions, and settings are stored only in your browser's local
+storage, on your device. The one exception is anonymous usage telemetry, which is off by default
+and only sends anything if you explicitly opt in (see Section 5). Switching to an account moves
+your local data to our servers, at which point the rest of this policy applies.
 
 ## 3. What we collect (registered accounts)
 
@@ -71,11 +71,29 @@ no ads and no ad-tech integrations. We use these processors to operate the servi
 Each processor is bound by its own terms; we don't share data with anyone beyond what's needed
 to run the listed feature.
 
-## 5. Cookies and local storage
+## 5. Cookies, local storage, and anonymous telemetry
 
 We use browser local storage / IndexedDB to keep the app responsive offline (this is core to how
 the PWA works, not a tracking mechanism) and a session cookie for authentication. We do not use
 third-party advertising or analytics cookies (no Google Analytics or similar is integrated).
+
+### Anonymous usage telemetry (opt-in)
+
+Kagelin can optionally send anonymous product-usage telemetry, off by default for everyone —
+Guest Mode and registered accounts alike. You're asked to opt in via an in-app prompt, and can
+turn it on or off any time in Settings → Privacy & Data.
+
+If you opt in:
+
+- We generate a random device ID, not tied to your account, email, or authenticated identity, and
+  store it in your browser.
+- We record only enumerated event types and counts — for example, that a focus session completed
+  or a task was created — never task titles, habit names, notes, or any other content.
+- Raw events are deleted after 30 days; only aggregate daily counts (like "42 focus sessions
+  completed today") are kept longer, for product metrics.
+- Your IP address is used in memory, at the moment a request is made, only to rate-limit abuse; it
+  is never stored alongside telemetry data.
+- Opting out immediately stops all telemetry and discards your device ID.
 
 ## 6. Your rights
 
