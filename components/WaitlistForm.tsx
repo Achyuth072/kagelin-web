@@ -1,12 +1,32 @@
 "use client";
 
-import { useCallback, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
 import { useWaitlistConfirmation } from "@/components/WaitlistProvider";
 import { isValidEmail } from "@/lib/email";
+import { WAITLIST_OPENS_AT } from "@/lib/waitlist";
 import { cn } from "@/lib/utils";
 
 type Phase = "idle" | "submitting" | "error";
+
+const OPENS_AT_LABEL = WAITLIST_OPENS_AT.toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata",
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
+// The gate never flips while the tab is open, so there's nothing to
+// subscribe to — this just gets the client its own render pass after
+// hydration, using the real clock instead of the server-snapshot fallback.
+const noopSubscribe = () => () => {};
+const getIsOpenSnapshot = () => new Date() >= WAITLIST_OPENS_AT;
+const getIsOpenServerSnapshot = () => false;
 
 export function WaitlistForm({ className }: { className?: string }) {
   const { confirmation, setConfirmation } = useWaitlistConfirmation();
@@ -17,6 +37,11 @@ export function WaitlistForm({ className }: { className?: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const turnstileRef = useRef<TurnstileHandle>(null);
   const inputId = useId();
+  const isOpen = useSyncExternalStore(
+    noopSubscribe,
+    getIsOpenSnapshot,
+    getIsOpenServerSnapshot,
+  );
 
   const onVerify = useCallback((token: string) => {
     tokenRef.current = token;
@@ -69,7 +94,9 @@ export function WaitlistForm({ className }: { className?: string }) {
             ? "That email doesn't look right — mind checking it?"
             : data.error === "failed_challenge"
               ? "The anti-spam check didn't pass. Please try again."
-              : "Something went wrong on our end. Please try again in a moment.",
+              : data.error === "not_open_yet"
+                ? `The waitlist isn't open yet — come back at ${OPENS_AT_LABEL}.`
+                : "Something went wrong on our end. Please try again in a moment.",
         );
         return;
       }
@@ -84,8 +111,29 @@ export function WaitlistForm({ className }: { className?: string }) {
     } catch {
       resetChallenge();
       setPhase("error");
-      setErrorMsg("Couldn't reach the server. Check your connection and retry.");
+      setErrorMsg(
+        "Couldn't reach the server. Check your connection and retry.",
+      );
     }
+  }
+
+  if (!isOpen) {
+    return (
+      <div
+        className={cn(
+          "rounded-xl border border-input bg-background px-5 py-4 text-left",
+          className,
+        )}
+        role="status"
+      >
+        <p className="type-body font-medium text-foreground">
+          The waitlist reopens soon.
+        </p>
+        <p className="type-body mt-1 text-muted-foreground">
+          Come back at {OPENS_AT_LABEL} to join.
+        </p>
+      </div>
+    );
   }
 
   if (confirmation) {

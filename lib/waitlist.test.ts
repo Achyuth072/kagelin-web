@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { joinWaitlist, type JoinWaitlistDeps, type SignupCohort } from "./waitlist";
+import {
+  joinWaitlist,
+  WAITLIST_OPENS_AT,
+  type JoinWaitlistDeps,
+  type SignupCohort,
+} from "./waitlist";
 
 function createFakeDb(seed: { email: string; cohort: SignupCohort }[] = []) {
   const signups = [...seed];
@@ -24,6 +29,8 @@ function makeDeps(
   const db = createFakeDb(seed);
   return {
     foundingCap: 25,
+    opensAt: WAITLIST_OPENS_AT,
+    now: () => new Date("2026-08-25T06:00:00.000Z"), // after opensAt, by default
     verifyTurnstile: async () => true,
     countFoundingSignups: db.countFoundingSignups,
     insertSignup: db.insertSignup,
@@ -33,6 +40,32 @@ function makeDeps(
 }
 
 describe("joinWaitlist", () => {
+  it("rejects a signup before opensAt, without touching the database", async () => {
+    const insertSignup = async () => {
+      throw new Error("should not be called");
+    };
+    const result = await joinWaitlist(
+      "person@example.com",
+      "token",
+      undefined,
+      makeDeps([], {
+        insertSignup,
+        now: () => new Date(WAITLIST_OPENS_AT.getTime() - 1000),
+      }),
+    );
+    expect(result).toEqual({ status: "not_open_yet" });
+  });
+
+  it("accepts a signup exactly at opensAt", async () => {
+    const result = await joinWaitlist(
+      "person@example.com",
+      "token",
+      undefined,
+      makeDeps([], { now: () => new Date(WAITLIST_OPENS_AT) }),
+    );
+    expect(result).toEqual({ status: "ok", cohort: "founding" });
+  });
+
   it("rejects a malformed email without touching the database", async () => {
     const insertSignup = async () => {
       throw new Error("should not be called");

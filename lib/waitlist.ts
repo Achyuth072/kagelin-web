@@ -1,5 +1,8 @@
 import { isValidEmail } from "@/lib/email";
 
+// 11:00 AM IST, 2026-08-25. Shared by the route and the form.
+export const WAITLIST_OPENS_AT = new Date("2026-08-25T05:30:00.000Z");
+
 export type SignupCohort = "founding" | "general";
 
 export interface JoinWaitlistDeps {
@@ -11,6 +14,8 @@ export interface JoinWaitlistDeps {
   ) => Promise<{ ok: true } | { ok: false; reason: "duplicate" | "other" }>;
   sendConfirmationEmail: (email: string) => Promise<void>;
   foundingCap: number;
+  opensAt: Date;
+  now: () => Date;
 }
 
 export type JoinWaitlistResult =
@@ -18,7 +23,8 @@ export type JoinWaitlistResult =
   | { status: "failed_challenge" }
   | { status: "already" }
   | { status: "ok"; cohort: SignupCohort }
-  | { status: "server_error" };
+  | { status: "server_error" }
+  | { status: "not_open_yet" };
 
 export async function joinWaitlist(
   rawEmail: string,
@@ -26,6 +32,10 @@ export async function joinWaitlist(
   remoteIp: string | undefined,
   deps: JoinWaitlistDeps,
 ): Promise<JoinWaitlistResult> {
+  if (deps.now() < deps.opensAt) {
+    return { status: "not_open_yet" };
+  }
+
   const email = rawEmail.trim().toLowerCase();
   if (!isValidEmail(email)) {
     return { status: "invalid_email" };
