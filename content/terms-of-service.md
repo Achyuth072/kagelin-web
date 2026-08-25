@@ -1,6 +1,6 @@
 # Kagelin — Terms of Service
 
-*Last updated: 2026-08-21.* **Not legal advice.** A plain-language description of the terms
+*Last updated: 2026-08-25.* **Not legal advice.** A plain-language description of the terms
 governing your use of Kagelin.
 
 ---
@@ -37,9 +37,10 @@ collected, but the same 18+ expectation applies. Kagelin is not directed at chil
   are planned to keep Guest Mode data reliably on-device rather than relying solely on browser
   storage.
 - **Registered accounts:** sign in via email magic-link, email/password, or OAuth (Google,
-  GitHub, GitLab). You're responsible for keeping access to whichever methods you've set up, and
-  we require reauthentication before sensitive account changes (like setting a password). Notify
-  us if you suspect unauthorized account access.
+  GitHub, GitLab). You can link multiple sign-in providers to your account in Settings. Merging
+  two separately created Kagelin accounts is not supported. You're responsible for keeping
+  access to whichever methods you've set up, and we require reauthentication before sensitive
+  account changes (like setting a password). Notify us if you suspect unauthorized account access.
 - You may connect optional third-party integrations (Google Calendar, Outlook Calendar, a
   self-hosted WebDAV server for backup). Connecting them is your choice and revocable at any time
   in Settings.

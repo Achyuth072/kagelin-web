@@ -1,6 +1,6 @@
 # Kagelin — Privacy Policy
 
-*Last updated: 2026-08-21.* **Not legal advice.** A plain-language description of how Kagelin
+*Last updated: 2026-08-25.* **Not legal advice.** A plain-language description of how Kagelin
 handles your data.
 
 ---
@@ -64,7 +64,10 @@ no ads and no ad-tech integrations. We use these processors to operate the servi
   hash is sent (k-anonymity); your password and account identity never leave your device for
   this check.
 - **Google / Microsoft**: only if you connect a calendar, governed by your existing
-  relationship with those providers as well as this policy.
+  relationship with those providers as well as this policy. Kagelin's use and transfer of
+  information received from Google APIs to any other app will adhere to the
+  [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy),
+  including the Limited Use requirements.
 - **Cloudflare R2**: stores our nightly, GPG-encrypted (AES-256) full database backup, as a
   disaster-recovery backstop. Not accessible without the separately-held encryption passphrase.
 
