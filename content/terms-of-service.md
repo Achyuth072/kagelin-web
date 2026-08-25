@@ -111,9 +111,9 @@ registration is deferred until there's revenue or press exposure worth protectin
 ## 10. Termination
 
 You can stop using the Service and request account deletion any time (Privacy Policy, Section
-7). We may suspend or terminate access for violations of Section 5, or discontinue the beta
-program with reasonable notice where practical; beta programs can end, and we'll aim to give you
-a window to export your data first.
+7). We may suspend or terminate access for violations of Section 5, or discontinue the Service
+with reasonable notice where practical; we'll aim to give you a window to export your data
+first.
 
 ## 11. Limitation of liability
 
