@@ -7,6 +7,9 @@ import { Section, SiteHeader, SiteFooter } from "@/components/SiteChrome";
 export const metadata: Metadata = {
   title: "Privacy Policy — Kagelin",
   description: "How Kagelin collects, uses, and protects your data.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default async function PrivacyPage() {

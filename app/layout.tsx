@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   applicationName: "Kagelin",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/kagelin-icon.png",
     apple: "/kagelin-icon.png",

@@ -7,6 +7,9 @@ import { Section, SiteHeader, SiteFooter } from "@/components/SiteChrome";
 export const metadata: Metadata = {
   title: "Terms of Service — Kagelin",
   description: "The terms governing your use of Kagelin.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default async function TermsPage() {
