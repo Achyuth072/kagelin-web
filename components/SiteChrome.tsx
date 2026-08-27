@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { APP_URL } from "@/lib/site";
 
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.kagelin.app";
+export { APP_URL };
 export const GITHUB_URL =
   process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Achyuth072/kagelin";
 
