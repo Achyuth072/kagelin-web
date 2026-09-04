@@ -1,6 +1,6 @@
 # Kagelin — Privacy Policy
 
-*Last updated: 2026-08-25.* **Not legal advice.** A plain-language description of how Kagelin
+*Last updated: 2026-09-04.* **Not legal advice.** A plain-language description of how Kagelin
 handles your data.
 
 ---
@@ -14,7 +14,7 @@ Kagelin collects, why, and what rights you have over it, whether you're in India
 California, or anywhere else.
 
 Kagelin is currently in **invite-only beta**. This policy will be updated as features (billing,
-native apps, encrypted-at-rest content) ship; check the "last updated" date above.
+native apps) ship; check the "last updated" date above.
 
 ## 2. Guest Mode: the default is zero collection
 
@@ -37,6 +37,33 @@ your local data to our servers, at which point the rest of this policy applies.
 
 We do not collect: phone number, physical address, government ID, payment/financial information
 (no billing exists yet), or social-media profile data (no "Sign in with Facebook/Twitter").
+
+### What "encrypted" means for a registered account
+
+Saying "your data is encrypted" would overclaim, so here's exactly what a content passphrase
+covers.
+
+Registered accounts set a content passphrase. It encrypts everything you write on your device,
+before it reaches us: task and habit names, notes, event titles, and locations. Kagelin cannot
+read any of that.
+
+It does not cover:
+
+- **Schedule and timing.** Dates, priorities, durations, completion state, and how often you
+  show up stay readable, because reminders and analytics need them.
+- **Account identity.** That an account exists, its email address, and how many items it holds
+  are never covered. That's how an account works at all. `auth.users` (your email and account
+  identity) is managed by our authentication provider, Supabase, and is out of our reach to
+  encrypt.
+- **Calendar sync.** Events synced from Google or Outlook stay readable at those providers. The
+  encryption guarantee only covers what's stored on Kagelin's servers.
+- **Backup exports.** A WebDAV backup or a downloaded backup file is a plain, readable copy of
+  your content. The content passphrase doesn't travel with it, so it's only as protected as
+  wherever you store it: a WebDAV server's own login, or your device's own file security.
+
+If you lose both your passphrase and your recovery code, we cannot recover your data. There is
+no support route that gets it back. Save the recovery code somewhere separate from the
+passphrase when you're given it.
 
 **Founding cohort:** if you signed up for our early-access waitlist (kagelin.app's homepage) as
 part of the founding cohort, we hold that signup (email, cohort, invite/grant timestamps) in the
@@ -168,6 +195,12 @@ Indian government; none currently apply to our processors.
 any time in Settings; email us to withdraw consent to processing entirely (equivalent to account
 deletion, Section 7).
 
+**Government and legal requests:** for a registered account, the content passphrase means we
+have nothing readable to hand over in response to a legal request, court order, or compulsion
+order. We can supply account metadata (email, timestamps, item counts, schedule data), but not
+task, habit, or event content, because we cannot read it either. This applies regardless of which
+jurisdiction's authority is asking.
+
 ## 9. Children's privacy
 
 Kagelin requires users to be at least 18 years old (see Terms of Service, Section 3). This
@@ -184,9 +217,9 @@ acknowledgment. If you believe someone under 18 has an account, contact us and w
   read on your behalf. It does not limit us: as the operator, we have administrative access to
   the underlying database (via Supabase) for operations, debugging, and support.
 - Sensitive account changes (like setting a password) require reauthentication.
-- Task/habit content itself is not yet encrypted at rest, so it's currently readable through
-  that administrative access. We're committed to closing this before opening signups beyond
-  the current invite-only cohort — not deferred to some later, unspecified "post-beta."
+- Task/habit content is encrypted client-side under your content passphrase before it reaches
+  our database, so that administrative access can't read it. See "What 'encrypted' means for a
+  registered account" in Section 3 for exactly what this does and doesn't cover.
 
 No system is perfectly secure; we can't guarantee absolute security, but we design for it.
 

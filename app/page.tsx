@@ -117,7 +117,7 @@ function AlsoLine() {
     ".ics import and export",
     "full keyboard control",
     "installable PWA",
-    "encrypted export",
+    "portable backup export",
   ];
   return (
     <Section className="border-t border-border py-10">
@@ -220,7 +220,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Is my data private?",
-    a: "Your data is yours. Guest mode keeps it on your device, self-hosting points sync at your own WebDAV server, and you can leave anytime with encrypted export and standard .ics files.",
+    a: "Your data is yours. Guest mode keeps it on your device. Sync a registered account and what you write is encrypted, so we can't read it. Dates, priorities, and completion stay legible so reminders keep working, and your account's existence, email, and item count are never covered. You can also self-host sync at your own WebDAV server, and leave anytime with standard .ics files.",
   },
 ];
 
