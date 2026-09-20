@@ -154,8 +154,9 @@ function FoundingTester() {
           timer.
         </p>
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-          Premium only covers the hosted extras like background calendar sync,
-          focus across devices, and push briefings. The app itself stays free.
+          Premium only covers the hosted extras like background calendar sync
+          and keeping your devices in step in real time. The app itself stays
+          free.
         </p>
       </div>
       <div className="mt-8 max-w-xl">
@@ -173,8 +174,8 @@ function Sustains() {
         <p className="type-body mt-4 text-muted-foreground">
           Kagelin is free and open source, and the app stays that way. The part
           that costs real money to run is the hosted layer: background calendar
-          sync, focus across devices, push briefings. Premium is an optional
-          subscription that covers those, and it&rsquo;s what pays for
+          sync, and keeping your devices in step in real time. Premium is an
+          optional subscription that covers those, and it&rsquo;s what pays for
           development. If you self-host or use guest mode, you never touch it.
         </p>
         <p className="type-body mt-3 text-muted-foreground">
