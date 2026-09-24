@@ -20,7 +20,7 @@ const jetbrains = JetBrains_Mono({
 
 const TITLE = "Kagelin — Work quietly. Own everything.";
 const DESCRIPTION =
-  "The productivity app that doesn't fight for your attention. Tasks, focus, habits, and calendar in one calm, offline-first space — no streaks, no badges, no dopamine bait. Free and open source.";
+  "The productivity app that doesn't fight for your attention. Tasks, focus, habits, and calendar in one calm, offline-first space — no badges, no dopamine bait. Free and open source.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

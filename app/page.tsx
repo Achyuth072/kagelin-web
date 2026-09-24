@@ -84,7 +84,7 @@ const PILLARS: { title: string; body: string }[] = [
   },
   {
     title: "Free & open (AGPL)",
-    body: "Run it in guest mode or host it yourself, no account needed. The core app is free and open source under AGPL-3.0. Premium is optional, just for the hosted extras.",
+    body: "Run it as a guest, or run your own copy from the source (bring your own Supabase; no Docker image yet). The core app is free and open source under AGPL-3.0. Premium is optional, just for the hosted extras.",
   },
 ];
 
@@ -154,9 +154,9 @@ function FoundingTester() {
           timer.
         </p>
         <p className="mt-4 text-[13px] leading-relaxed text-muted-foreground">
-          Premium only covers the hosted extras like background calendar sync
-          and keeping your devices in step in real time. The app itself stays
-          free.
+          Premium is planned for hosted extras (background calendar sync, live
+          device mirroring). They aren&rsquo;t built yet; founding testers lock
+          in their free year and discount now. The app itself stays free.
         </p>
       </div>
       <div className="mt-8 max-w-xl">
@@ -173,10 +173,11 @@ function Sustains() {
         <h2 className="type-h2 text-foreground">How Kagelin sustains itself</h2>
         <p className="type-body mt-4 text-muted-foreground">
           Kagelin is free and open source, and the app stays that way. The part
-          that costs real money to run is the hosted layer: background calendar
-          sync, and keeping your devices in step in real time. Premium is an
-          optional subscription that covers those, and it&rsquo;s what pays for
-          development. If you self-host or use guest mode, you never touch it.
+          that costs real money to run is the hosted layer. Premium is planned
+          to cover hosted extras (background calendar sync, live device
+          mirroring); they aren&rsquo;t built yet. It&rsquo;s an optional
+          subscription, and it&rsquo;s what will pay for development. If you
+          run your own copy or use guest mode, you never touch it.
         </p>
         <p className="type-body mt-3 text-muted-foreground">
           You can also support the project directly.
@@ -221,7 +222,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Is my data private?",
-    a: "Your data is yours. Guest mode keeps it on your device. Sync a registered account and what you write is encrypted, so we can't read it. Dates, priorities, and completion stay legible so reminders keep working, and your account's existence, email, and item count are never covered. You can also self-host sync at your own WebDAV server, and leave anytime with standard .ics files.",
+    a: "Your data is yours. Guest mode keeps it on your device. Sync a registered account and what you write is encrypted, so we can't read it. Dates, priorities, and completion stay legible so reminders keep working, and your account's existence, email, and item count are never covered. You can also back up to a WebDAV server you own (Nextcloud, Synology), and leave anytime with an encrypted ZIP export or standard .ics files.",
   },
 ];
 
