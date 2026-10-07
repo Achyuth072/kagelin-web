@@ -1,6 +1,6 @@
 # Kagelin — Privacy Policy
 
-*Last updated: 2026-09-04.* **Not legal advice.** A plain-language description of how Kagelin
+*Last updated: 2026-10-07.* **Not legal advice.** A plain-language description of how Kagelin
 handles your data.
 
 ---
@@ -61,11 +61,22 @@ It does not cover:
   your content. The content passphrase doesn't travel with it, so it's only as protected as
   wherever you store it: a WebDAV server's own login, or your device's own file security.
 
+Each encrypted value is also bound to the exact place it is stored: your account, and the
+table, field and record it belongs to. If someone with access to our database moves a value to
+another record or field, the app reports it as unreadable instead of showing it in the wrong
+place.
+
+**If your key leaks**, you can rotate it in Settings. Kagelin then creates a new key, a new
+passphrase and a new recovery code, and re-encrypts your content. When that finishes, the old
+key is deleted. Backups taken before then keep old-key copies for up to 30 days (Section 7).
+
 If you lose both your passphrase and your recovery code, we cannot recover your data. There is
 no support route that gets it back. Save the recovery code somewhere separate from the
 passphrase when you're given it.
 
-**Founding cohort:** if you signed up for our early-access waitlist (kagelin.app's homepage) as
+### Founding cohort
+
+If you signed up for our early-access waitlist (kagelin.app's homepage) as
 part of the founding cohort, we hold that signup (email, cohort, invite/grant timestamps) in the
 same database as registered accounts. When you confirm an app account using that same email, we
 automatically check it against your waitlist signup and, on a match, apply the founding-cohort
@@ -175,7 +186,8 @@ beta.)*
 This doesn't reach our nightly encrypted database backups (Section 4): those roll off
 automatically **30 days** after the night they were taken, regardless of when you delete your
 account or data in between, since they're whole-database snapshots rather than per-account
-records.
+records. The same applies to a content key rotation (Section 3): backups taken before its
+re-encryption finished keep content encrypted under the old key until they roll off.
 
 ## 8. India DPDP Act notice & Grievance Officer
 
@@ -220,6 +232,7 @@ acknowledgment. If you believe someone under 18 has an account, contact us and w
 - Task/habit content is encrypted client-side under your content passphrase before it reaches
   our database, so that administrative access can't read it. See "What 'encrypted' means for a
   registered account" in Section 3 for exactly what this does and doesn't cover.
+- Row binding and key rotation: see Section 3.
 
 No system is perfectly secure; we can't guarantee absolute security, but we design for it.
 
