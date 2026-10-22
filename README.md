@@ -13,3 +13,10 @@ npm run dev
 The waitlist needs the Supabase and Turnstile keys from `.env.example` plus the
 `supabase/waitlist_signups.sql` table; deploy as a separate Vercel project with
 `kagelin.app` bound.
+
+## License
+
+Copyright (C) 2026 Achyuth S.
+
+Licensed under the [GNU Affero General Public License v3.0](LICENSE).
+
